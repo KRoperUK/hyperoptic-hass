@@ -1,0 +1,42 @@
+# Home Assistant Configuration for Hyperoptic Integration Development
+# This configuration enables debug logging for asyncio and the homeassistant core
+# to help detect blocking operations in the event loop during development.
+
+homeassistant:
+  name: Home
+  latitude: 52
+  longitude: 2
+  elevation: 0
+  unit_system: metric
+  time_zone: Europe/London
+
+  # Enable debug mode for the homeassistant core
+  debug: true
+
+# Enable the web interface
+http:
+  server_port: 8123
+
+# Enable developer tools
+developer_tools:
+
+# Configure logging with debug levels for asyncio and hyperoptic
+logger:
+  default: info
+  logs:
+    # Enable asyncio debug logging
+    asyncio: debug
+
+    # Enable Home Assistant core debug logging
+    homeassistant.core: debug
+    homeassistant.components.config: debug
+
+    # Enable debug logging for the hyperoptic integration
+    custom_components.hyperoptic: debug
+    custom_components.hyperoptic.config_flow: debug
+    custom_components.hyperoptic.coordinator: debug
+# Example: dummy integration for testing (disabled by default)
+# frontend:
+# config:
+# system_health:
+# file_upload:
