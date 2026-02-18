@@ -1,0 +1,26 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "Hyperoptic",
+        "description": "Enter your Hyperoptic customer portal credentials",
+        "data": {
+          "email": "Email",
+          "password": "Password"
+        },
+        "data_description": {
+          "email": "Your Hyperoptic account email address",
+          "password": "Your Hyperoptic account password"
+        }
+      }
+    },
+    "error": {
+      "cannot_connect": "Failed to connect to Hyperoptic API",
+      "invalid_auth": "Invalid email or password",
+      "unknown": "An unexpected error occurred"
+    },
+    "abort": {
+      "already_configured": "Hyperoptic is already configured"
+    }
+  }
+}

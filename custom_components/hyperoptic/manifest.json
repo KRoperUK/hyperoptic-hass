@@ -1,0 +1,12 @@
+{
+  "domain": "hyperoptic",
+  "name": "Hyperoptic Broadband",
+  "codeowners": ["@kroperuk"],
+  "config_flow": true,
+  "dependencies": [],
+  "documentation": "https://github.com/kroperuk/hyperoptic-hass",
+  "iot_class": "cloud_polling",
+  "issue_tracker": "https://github.com/kroperuk/hyperoptic-hass/issues",
+  "requirements": ["hyperoptic>=0.0.0"],
+  "version": "0.1.0"
+}
