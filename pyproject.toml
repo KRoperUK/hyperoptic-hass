@@ -16,7 +16,7 @@ package-mode = false
 
 [dependency-groups]
 dev = [
-    "homeassistant>=2025.0",
+    "homeassistant>=2026.2.3",
     "mypy>=1.10",
     "pre-commit>=3.5",
     "pytest>=7.4",
