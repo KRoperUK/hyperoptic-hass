@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.2.1](https://github.com/KRoperUK/hyperoptic-hass/compare/v0.2.0...v0.2.1) (2026-06-22)
+
+
+### Bug Fixes
+
+* add local HACS brand assets ([#11](https://github.com/KRoperUK/hyperoptic-hass/issues/11)) ([13c06a2](https://github.com/KRoperUK/hyperoptic-hass/commit/13c06a29259d56360cc99b63d45ec41c4a625337))
+
 ## [0.2.0](https://github.com/KRoperUK/hyperoptic-hass/compare/v0.1.0...v0.2.0) (2026-02-18)
 
 
