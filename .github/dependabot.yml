@@ -8,3 +8,8 @@ updates:
     directory: "/"
     schedule:
       interval: daily
+    ignore:
+      # pytest-homeassistant-custom-component pins these exactly
+      # (pytest==9.0.0, pytest-asyncio==1.3.0), so any bump is unresolvable.
+      - dependency-name: "pytest"
+      - dependency-name: "pytest-asyncio"
