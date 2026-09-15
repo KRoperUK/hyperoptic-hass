@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.2.2](https://github.com/KRoperUK/hyperoptic-hass/compare/v0.2.1...v0.2.2) (2026-09-15)
+
+
+### Bug Fixes
+
+* stop prettier fighting release-please over manifest.json ([#19](https://github.com/KRoperUK/hyperoptic-hass/issues/19)) ([9f4824e](https://github.com/KRoperUK/hyperoptic-hass/commit/9f4824e3a1975fb3e823fc1d4c3f430a7cd6e420))
+
 ## [0.2.1](https://github.com/KRoperUK/hyperoptic-hass/compare/v0.2.0...v0.2.1) (2026-06-22)
 
 
