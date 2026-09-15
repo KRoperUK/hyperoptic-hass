@@ -1,1 +1,5 @@
 CHANGELOG.md
+
+# release-please rewrites this file on every release and expands the arrays,
+# which makes prettier fail on every subsequent run. Let release-please own it.
+custom_components/*/manifest.json
