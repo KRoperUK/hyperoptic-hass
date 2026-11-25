@@ -11,6 +11,7 @@ from homeassistant.helpers.update_coordinator import (
 )
 from homeassistant.exceptions import ConfigEntryAuthFailed
 from hyperoptic import HyperopticClient
+from hyperoptic.exceptions import APIError, AuthenticationError
 
 from .const import DOMAIN, SCAN_INTERVAL
 
@@ -258,8 +259,14 @@ class HyperopticCoordinator(DataUpdateCoordinator[dict[str, Any]]):
                 "accounts": accounts_data,
             }
 
+        except ConfigEntryAuthFailed:
+            raise
+        except AuthenticationError as err:
+            raise ConfigEntryAuthFailed("Invalid email or password") from err
+        except APIError as err:
+            if err.status_code in (401, 403):
+                raise ConfigEntryAuthFailed("Invalid email or password") from err
+            raise UpdateFailed(f"Error communicating with API: {err}") from err
         except Exception as err:
             _LOGGER.error("Error updating Hyperoptic data: %s", err)
-            if "401" in str(err) or "Unauthorized" in str(err):
-                raise ConfigEntryAuthFailed("Invalid email or password") from err
             raise UpdateFailed(f"Error communicating with API: {err}") from err
