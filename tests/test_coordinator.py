@@ -6,6 +6,7 @@ import pytest
 from homeassistant.core import HomeAssistant
 from homeassistant.exceptions import ConfigEntryAuthFailed
 from homeassistant.helpers.update_coordinator import UpdateFailed
+from hyperoptic.exceptions import APIError, AuthenticationError
 
 from custom_components.hyperoptic.coordinator import (
     HyperopticCoordinator,
@@ -42,7 +43,7 @@ async def test_coordinator_update_data(hass: HomeAssistant, mock_hyperoptic_clie
 async def test_coordinator_update_data_auth_error(hass: HomeAssistant):
     """Test coordinator handles auth errors."""
     mock_client = MagicMock()
-    mock_client.get_customer = MagicMock(side_effect=Exception("401 Unauthorized"))
+    mock_client.get_customer = MagicMock(side_effect=AuthenticationError("Password grant failed (400)"))
 
     with patch(
         "custom_components.hyperoptic.coordinator.HyperopticClient",
@@ -55,6 +56,48 @@ async def test_coordinator_update_data_auth_error(hass: HomeAssistant):
         )
 
         with pytest.raises(ConfigEntryAuthFailed):
+            await coordinator._async_update_data()
+
+
+@pytest.mark.asyncio
+async def test_coordinator_unauthorized_api_error_is_auth_failure(
+    hass: HomeAssistant,
+):
+    """A 401 API error means re-auth, typed by status code."""
+    mock_client = MagicMock()
+    mock_client.get_customer = MagicMock(side_effect=APIError(401, "expired"))
+
+    with patch(
+        "custom_components.hyperoptic.coordinator.HyperopticClient",
+        return_value=mock_client,
+    ):
+        coordinator = HyperopticCoordinator(
+            hass,
+            email="test@example.com",
+            password="password",
+        )
+
+        with pytest.raises(ConfigEntryAuthFailed):
+            await coordinator._async_update_data()
+
+
+@pytest.mark.asyncio
+async def test_coordinator_ignores_401_in_message_text(hass: HomeAssistant):
+    """A message merely mentioning 401 is not an auth failure."""
+    mock_client = MagicMock()
+    mock_client.get_customer = MagicMock(side_effect=Exception("boom 401 glitch"))
+
+    with patch(
+        "custom_components.hyperoptic.coordinator.HyperopticClient",
+        return_value=mock_client,
+    ):
+        coordinator = HyperopticCoordinator(
+            hass,
+            email="test@example.com",
+            password="password",
+        )
+
+        with pytest.raises(UpdateFailed):
             await coordinator._async_update_data()
 
 

@@ -9,6 +9,7 @@ from homeassistant.core import HomeAssistant
 from homeassistant.exceptions import HomeAssistantError
 from homeassistant.helpers import selector
 from hyperoptic import HyperopticClient
+from hyperoptic.exceptions import APIError, AuthenticationError
 
 from .const import CONF_EMAIL, CONF_PASSWORD, DOMAIN
 
@@ -46,10 +47,14 @@ async def validate_input(hass: HomeAssistant, data: dict[str, Any]) -> dict[str,
             data[CONF_EMAIL],
             data[CONF_PASSWORD],
         )
+    except AuthenticationError as err:
+        raise InvalidAuth from err
+    except APIError as err:
+        if err.status_code in (401, 403):
+            raise InvalidAuth from err
+        raise CannotConnect from err
     except Exception as err:
         _LOGGER.error("Error validating credentials: %s", err)
-        if "401" in str(err) or "Unauthorized" in str(err):
-            raise InvalidAuth from err
         raise CannotConnect from err
 
 
