@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.2.3](https://github.com/KRoperUK/hyperoptic-hass/compare/v0.2.2...v0.2.3) (2026-11-25)
+
+
+### Bug Fixes
+
+* type auth errors by status code instead of message text ([#40](https://github.com/KRoperUK/hyperoptic-hass/issues/40)) ([e64984a](https://github.com/KRoperUK/hyperoptic-hass/commit/e64984af25910c4c15d1a7e4919ce870a8669acd))
+
 ## [0.2.2](https://github.com/KRoperUK/hyperoptic-hass/compare/v0.2.1...v0.2.2) (2026-09-15)
 
 
