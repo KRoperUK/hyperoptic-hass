@@ -43,9 +43,7 @@ async def test_coordinator_update_data(hass: HomeAssistant, mock_hyperoptic_clie
 async def test_coordinator_update_data_auth_error(hass: HomeAssistant):
     """Test coordinator handles auth errors."""
     mock_client = MagicMock()
-    mock_client.get_customer = MagicMock(
-        side_effect=AuthenticationError("Password grant failed (400)")
-    )
+    mock_client.get_customer = MagicMock(side_effect=AuthenticationError("Password grant failed (400)"))
 
     with patch(
         "custom_components.hyperoptic.coordinator.HyperopticClient",

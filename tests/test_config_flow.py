@@ -56,9 +56,7 @@ async def test_config_flow_user_valid(hass: HomeAssistant, mock_hyperoptic_clien
 async def test_config_flow_user_invalid_auth(hass: HomeAssistant):
     """Test config flow with invalid credentials."""
     mock_client = MagicMock()
-    mock_client.get_customer = MagicMock(
-        side_effect=AuthenticationError("Password grant failed (400)")
-    )
+    mock_client.get_customer = MagicMock(side_effect=AuthenticationError("Password grant failed (400)"))
     with patch(
         "custom_components.hyperoptic.config_flow.HyperopticClient",
         return_value=mock_client,
