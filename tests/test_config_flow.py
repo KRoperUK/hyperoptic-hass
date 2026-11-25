@@ -1,11 +1,12 @@
 """Tests for Hyperoptic config flow."""
 
-from unittest.mock import patch
+from unittest.mock import MagicMock, patch
 
 import pytest
 from homeassistant.config_entries import SOURCE_USER
 from homeassistant.core import HomeAssistant
 from homeassistant.data_entry_flow import FlowResult, FlowResultType
+from hyperoptic.exceptions import APIError, AuthenticationError
 
 from custom_components.hyperoptic.config_flow import (
     HyperopticConfigFlow,
@@ -54,9 +55,11 @@ async def test_config_flow_user_valid(hass: HomeAssistant, mock_hyperoptic_clien
 
 async def test_config_flow_user_invalid_auth(hass: HomeAssistant):
     """Test config flow with invalid credentials."""
+    mock_client = MagicMock()
+    mock_client.get_customer = MagicMock(side_effect=AuthenticationError("Password grant failed (400)"))
     with patch(
-        "custom_components.hyperoptic.config_flow._validate_credentials",
-        side_effect=Exception("401 Unauthorized"),
+        "custom_components.hyperoptic.config_flow.HyperopticClient",
+        return_value=mock_client,
     ):
         flow = HyperopticConfigFlow()
         flow.hass = hass
@@ -75,9 +78,11 @@ async def test_config_flow_user_invalid_auth(hass: HomeAssistant):
 
 async def test_config_flow_user_cannot_connect(hass: HomeAssistant):
     """Test config flow with connection error."""
+    mock_client = MagicMock()
+    mock_client.get_customer = MagicMock(side_effect=APIError(500, "boom"))
     with patch(
-        "custom_components.hyperoptic.config_flow._validate_credentials",
-        side_effect=Exception("Connection error"),
+        "custom_components.hyperoptic.config_flow.HyperopticClient",
+        return_value=mock_client,
     ):
         flow = HyperopticConfigFlow()
         flow.hass = hass
